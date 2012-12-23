@@ -1,0 +1,31 @@
+#!/bin/sh
+
+tag_file() {
+    if [ ! -d "$HOME/.mapgit" ]; then
+        mkdir $HOME/.mapgit
+        chmod "${MAPGIT_PERMISSIONS:-700}" $HOME/.mapgit
+    fi
+    echo "$HOME/.mapgit/geotags"
+}
+
+should_geotag_commits() {
+    [ -f ".git/geotag_commits" ]
+}
+
+can_geotag_commits() {
+    which whereami >/dev/null
+}
+
+get_location() {
+    whereami
+}
+
+write_tag() {
+    echo "$1 $2" >> $(tag_file)
+}
+
+if should_geotag_commits && can_geotag_commits; then
+    echo "Tagging commit.."
+    rev=`git rev-parse HEAD`
+    write_tag "$rev" "$(get_location)"
+fi
