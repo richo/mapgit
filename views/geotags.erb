@@ -1,0 +1,12 @@
+<div class="nine columns push-three">
+  <% if tags.empty? %>
+    <h3>You don't have any tags. Maybe you'd like to <a href="/geotags/upload">upload</a> some?</h3>
+  <% else %>
+    <table>
+      <tr><th>commit hash</th><th>geotag</th></tr>
+      <% tags.each do |hash, tag| %>
+        <tr><td><%= hash %></td><td><%= tag %></td></tr>
+      <% end %>
+    </table>
+  <% end %>
+</div>

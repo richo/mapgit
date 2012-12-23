@@ -19,12 +19,50 @@ module Mapgit
       def logout!
         session[:user] = nil
       end
+
+      def redis
+        @redis ||= Redis.new
+      end
     end
 
     get '/' do
       erb(:index)
     end
 
+    get '/geotags' do
+      if params[:user]
+        username = params[:user]
+      elsif current_user
+        username = current_user.info[:nickname]
+      else
+        halt 403, "Login fool!"
+      end
+
+      hash_name = "#{username}:tags"
+
+      erb(:geotags, :locals => { :tags => redis.hgetall(hash_name) })
+    end
+
+
+    get '/geotags/upload' do
+      erb(:"geotags/upload")
+    end
+
+    post '/geotags/upload' do
+      halt 403, "Login fool!" unless current_user
+
+      begin
+        hash_name = "#{current_user.info[:nickname]}:tags"
+        params[:tags].lines.each do |line|
+          tag = ::Mapgit::Tag.from_line(line)
+          redis.hmset hash_name, tag.hash, tag.tag
+        end
+        redirect '/geotags'
+      rescue Exception => e
+        halt 500, "Invalid data yo\n\n" + e.to_s
+      end
+
+    end
 
     get '/geotags.csv' do
       # Take some aribtrary metadata, turn it into tags and return it as a csv appropriate for R
@@ -48,4 +86,3 @@ module Mapgit
 
   end
 end
-

@@ -1,10 +1,15 @@
 require 'omniauth'
 require 'omniauth-github'
 require 'sinatra'
+require 'redis'
 
 module Mapgit
 end
 
-%w[server].each do |f|
+Dir[File.expand_path("../mapgit/models/*", __FILE__)].each do |f|
+  require f
+end
+
+%w[server redis].each do |f|
   require File.expand_path("../mapgit/#{f}", __FILE__)
 end
