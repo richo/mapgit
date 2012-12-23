@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8" />
+
+  <!-- Set the viewport width to device width for mobile -->
+  <meta name="viewport" content="width=device-width" />
+
+  <title>MapGit</title>
+
+  <!-- Included CSS Files (Uncompressed) -->
+  <link rel="stylesheet" href="/stylesheets/foundation.css">
+
+  <!-- Included CSS Files (Compressed) -->
+  <!--
+  <link rel="stylesheet" href="stylesheets/foundation.min.css">
+  -->
+
+  <script src="/javascripts/modernizr.foundation.js"></script>
+</head>
+<body>
+
+  <!-- Header and Nav -->
+
+  <div class="row">
+    <div class="three columns">
+      <h1>MapGit</h1>
+    </div>
+    <div class="nine columns">
+      <ul class="link-list right">
+        <% if current_user %>
+          <li>logged in as <%= current_user.info[:nickname] %></li>
+          <li><form method="post" action="/logout"><input type="submit" class="button" value="Logout" /></form></li>
+        <% else %>
+          <li><a class="button" href="/auth/github">Login</a></li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+
+  <!-- End Header and Nav -->
+
+
+  <div class="row">
+
+    <%= yield %>
+
+    <!-- Nav Sidebar -->
+    <!-- This is source ordered to be pulled to the left on larger screens -->
+    <div class="three columns pull-nine">
+
+      <ul class="side-nav">
+        <li><a href="/geotags/upload">upload tags</a></li>
+        <li><a href="/geotags">view geotags</a></li>
+      </ul>
+
+    </div>
+
+  </div>
+
+
+  <!-- Footer -->
+
+  <footer class="row">
+    <div class="twelve columns">
+      <hr />
+      <div class="row">
+        <div class="six columns">
+          <p>&copy; Copyright <a href="http://richo.mit-license.org/">richo</a> 2012</p>
+        </div>
+        <div class="six columns">
+          <ul class="link-list right">
+            <li><a href="https://twitter.com/rich0H">twitter</a></li>
+            <li><a href="https://github.com/richo">github</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Included JS Files (Uncompressed) -->
+  <script src="/javascripts/jquery.js"></script>
+  <script src="/javascripts/jquery.foundation.mediaQueryToggle.js"></script>
+  <script src="/javascripts/jquery.foundation.forms.js"></script>
+  <script src="/javascripts/jquery.foundation.reveal.js"></script>
+  <script src="/javascripts/jquery.foundation.orbit.js"></script>
+  <script src="/javascripts/jquery.foundation.navigation.js"></script>
+  <script src="/javascripts/jquery.foundation.buttons.js"></script>
+  <script src="/javascripts/jquery.foundation.tabs.js"></script>
+  <script src="/javascripts/jquery.foundation.tooltips.js"></script>
+  <script src="/javascripts/jquery.foundation.accordion.js"></script>
+  <script src="/javascripts/jquery.placeholder.js"></script>
+  <script src="/javascripts/jquery.foundation.alerts.js"></script>
+  <script src="/javascripts/jquery.foundation.topbar.js"></script>
+  <script src="/javascripts/jquery.foundation.joyride.js"></script>
+  <script src="/javascripts/jquery.foundation.clearing.js"></script>
+  <script src="/javascripts/jquery.foundation.magellan.js"></script>
+
+  <!-- Included JS Files (Compressed) -->
+  <!--
+  <script src="javascripts/jquery.js"></script>
+  <script src="javascripts/foundation.min.js"></script>
+  -->
+
+</body>
+</html>
