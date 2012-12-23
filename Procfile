@@ -1,0 +1,1 @@
+web: ruby bin/mapgit

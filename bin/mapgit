@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+
+$:.unshift(File.expand_path("../../lib", __FILE__))
+require 'mapgit'
+
+port = (ENV['PORT'] || 7777).to_i
+host = ENV['HOST'] || '0.0.0.0'
+
+Mapgit::Server.run!(host: host, port: port)
