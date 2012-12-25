@@ -43,7 +43,6 @@ module Mapgit
       erb(:geotags, :locals => { :tags => redis.hgetall(hash_name) })
     end
 
-
     get '/geotags/upload' do
       erb(:"geotags/upload")
     end
@@ -65,7 +64,20 @@ module Mapgit
     end
 
     get '/geotags.csv' do
-      # Take some aribtrary metadata, turn it into tags and return it as a csv appropriate for R
+      username = params[:user]
+      hash_name = "#{username}:tags"
+      lines = []
+      refs = params[:refs]
+      if refs
+        refs.split("|").each do |ref|
+          lines << "#{ref},#{redis.hget(hash_name, ref)}"
+        end
+      else
+        redis.hgetall(hash_name).each do |hash, tag|
+          lines << "#{hash},#{tag}"
+        end
+      end
+      halt lines.join("\n")
     end
 
     get '/github/geotags.csv' do
