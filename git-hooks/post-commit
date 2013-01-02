@@ -1,5 +1,7 @@
 #!/bin/sh
 
+tag_binary=doko
+
 tag_file() {
     if [ ! -d "$HOME/.mapgit" ]; then
         mkdir $HOME/.mapgit
@@ -13,11 +15,11 @@ should_geotag_commits() {
 }
 
 can_geotag_commits() {
-    which whereami >/dev/null
+    which $tag_binary >/dev/null
 }
 
 get_location() {
-    whereami
+    $tag_binary
 }
 
 write_tag() {

@@ -14,3 +14,11 @@ with the commit hash. This data can be synced to with the mapgit webservice (or
 a private instance) which then does the appropriate magic to marry this data up
 with github.
 
+tagging
+-------
+
+This is all well and good, but you'll still need a mechanism to gather this
+data. I recommend [doko](1), which is written in python and plays nicely on all
+platforms (although it's most accurate on OSX with corelocation).
+
+[1]:https://bitbucket.org/larsyencken/doko
