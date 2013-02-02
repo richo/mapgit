@@ -96,12 +96,20 @@ module Mapgit
       hash_name = "#{username}:tags"
       tags = []
 
+      center = [0, 0]
+
       redis.hgetall(hash_name).each do |hash, tag|
-        x, y = tag.split(",")
-        tags << [x.to_f, y.to_f]
+        x, y = tag.split(",").map(&:to_f)
+        center[0] += x
+        center[1] += y
+
+        tags << [x, y]
       end
 
-      erb(:"geotags/map", :locals => {:tags => tags}, :layout => false)
+      center[0] /= tags.length
+      center[1] /= tags.length
+
+      erb(:"geotags/map", :locals => {:tags => tags, :center => center}, :layout => false)
     end
 
     get '/github/geotags.csv' do
