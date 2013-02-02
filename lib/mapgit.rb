@@ -7,6 +7,14 @@ require 'redis-rack'
 require 'json'
 
 module Mapgit
+  REDIS_URL = lambda {
+    %w[REDIS_URL REDISCLOUD_URL].each do |k|
+      if ENV.include? k
+        return URI.parse(ENV[k])
+      end
+    end
+  raise "No redis url given"
+  }.call
 end
 
 Dir[File.expand_path("../mapgit/models/*", __FILE__)].each do |f|

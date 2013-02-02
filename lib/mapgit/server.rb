@@ -11,10 +11,10 @@ module Mapgit
       raise "GMAPS_API_KEY unset"
     end
 
+    use Rack::Session::Redis, :redis_server => ::Mapgit::REDIS_URL.to_s
     use OmniAuth::Builder do
         provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
     end
-    use Rack::Session::Redis
 
     helpers do
       def current_user
