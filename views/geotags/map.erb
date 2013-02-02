@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+    <style type="text/css">
+      html { height: 100% }
+      body { height: 100%; margin: 0; padding: 0 }
+      #map_canvas { height: 100% }
+    </style>
+    <script type="text/javascript"
+      src="data_points.js">
+    <!-- Needs to export `data_points` as an array of arrays -->
+    </script>
+    <script type="text/javascript"
+      src="https://maps.googleapis.com/maps/api/js?libraries=visualization&key=<%=ENV['GMAPS_API_KEU']%>&sensor=false">
+    </script>
+    <script type="text/javascript">
+      data_points = <%= tags.to_json %>;
+      function jitter(){
+        var j = Math.random() - .5; // -.5:.5
+        return j * 0.002;
+      }
+      function load_heatmap(map) {
+        /* Data points defined as an array of LatLng objects */
+        var heatmapData = [];
+        var point;
+        for (var i in data_points) {
+          var x = data_points[i][0],
+              y = data_points[i][1];
+          // Apply some jitter
+          x += jitter();
+          y += jitter();
+
+          point = new google.maps.LatLng(x, y);
+          heatmapData.push(point);
+        }
+
+        var heatmap = new google.maps.visualization.HeatmapLayer({
+          data: heatmapData,
+          radius: 15,
+          dissipating: true
+        });
+        heatmap.setMap(map);
+      }
+      function initialize() {
+        var mapOptions = {
+          center: new google.maps.LatLng(-37.711662, 144.925346),
+          zoom: 8,
+          mapTypeId: google.maps.MapTypeId.ROADMAP
+        };
+        var map = new google.maps.Map(document.getElementById("map_canvas"),
+            mapOptions);
+        load_heatmap(map);
+      }
+      </script>
+  </head>
+  <body onload="initialize()">
+    <div id="map_canvas" style="width:100%; height:100%"></div>
+  </body>
+</html>

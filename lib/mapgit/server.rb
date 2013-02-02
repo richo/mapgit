@@ -7,6 +7,10 @@ module Mapgit
     set :show_exceptions, true
     set :sessions, true
 
+    unless ENV['GMAPS_API_KEY']
+      raise "GMAPS_API_KEY unset"
+    end
+
     use OmniAuth::Builder do
         provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
     end
@@ -95,7 +99,7 @@ module Mapgit
         tags << [x.to_f, y.to_f]
       end
 
-      render(:"geotags/map", :locals => {:tags => tags})
+      render(:"geotags/map", :locals => {:tags => tags}, :layout => nil)
     end
 
     get '/github/geotags.csv' do
