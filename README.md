@@ -18,7 +18,7 @@ tagging
 -------
 
 This is all well and good, but you'll still need a mechanism to gather this
-data. I recommend [doko](1), which is written in python and plays nicely on all
+data. I recommend [doko](https://bitbucket.org/larsyencken/doko), which is written in python and plays nicely on all
 platforms (although it's most accurate on OSX with corelocation).
 
 mapping
@@ -27,5 +27,3 @@ mapping
 You'll need to fetch a maps api key from [google](https://code.google.com/apis/console).
 
 Set it to the environment variable `GMAPS_API_KEY`
-
-[1]:https://bitbucket.org/larsyencken/doko
