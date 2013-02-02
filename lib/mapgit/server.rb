@@ -101,7 +101,7 @@ module Mapgit
         tags << [x.to_f, y.to_f]
       end
 
-      erb(:"geotags/map", :locals => {:tags => tags}, :layout => nil)
+      erb(:"geotags/map", :locals => {:tags => tags}, :layout => false)
     end
 
     get '/github/geotags.csv' do
