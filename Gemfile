@@ -5,6 +5,8 @@ gem 'omniauth'
 gem 'omniauth-github'
 
 gem 'redis'
+gem 'redis-store'
+gem 'redis-rack'
 
 group :development do
   gem "pry"

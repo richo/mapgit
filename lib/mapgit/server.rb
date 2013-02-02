@@ -5,7 +5,7 @@ module Mapgit
     set :public_folder, "public"
     set :static, true
     set :show_exceptions, true
-    set :sessions, true
+    set :sessions, false
 
     unless ENV['GMAPS_API_KEY']
       raise "GMAPS_API_KEY unset"
@@ -14,6 +14,7 @@ module Mapgit
     use OmniAuth::Builder do
         provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
     end
+    use Rack::Session::Redis
 
     helpers do
       def current_user

@@ -2,6 +2,8 @@ require 'omniauth'
 require 'omniauth-github'
 require 'sinatra'
 require 'redis'
+require 'redis-store'
+require 'redis-rack'
 require 'json'
 
 module Mapgit
