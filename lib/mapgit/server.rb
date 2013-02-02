@@ -92,6 +92,8 @@ module Mapgit
       else
         raise "No username"
       end
+
+      hash_name = "#{username}:tags"
       tags = []
 
       redis.hgetall(hash_name).each do |hash, tag|
