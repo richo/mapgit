@@ -7,6 +7,10 @@ module Mapgit
     set :show_exceptions, true
     set :sessions, true
 
+    unless ENV['GMAPS_API_KEY']
+      raise "GMAPS_API_KEY unset"
+    end
+
     use OmniAuth::Builder do
         provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
     end
@@ -78,6 +82,26 @@ module Mapgit
         end
       end
       halt lines.join("\n")
+    end
+
+    get '/geotags/map' do
+      if current_user
+        username = current_user[:nickname]
+      elsif params[:user]
+        username = params[:user]
+      else
+        raise "No username"
+      end
+
+      hash_name = "#{username}:tags"
+      tags = []
+
+      redis.hgetall(hash_name).each do |hash, tag|
+        x, y = tag.split(",")
+        tags << [x.to_f, y.to_f]
+      end
+
+      erb(:"geotags/map", :locals => {:tags => tags}, :layout => false)
     end
 
     get '/github/geotags.csv' do
