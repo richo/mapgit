@@ -80,6 +80,24 @@ module Mapgit
       halt lines.join("\n")
     end
 
+    get '/geotags/map' do
+      if current_user
+        username = current_user[:nickname]
+      elsif params[:user]
+        username = params[:user]
+      else
+        raise "No username"
+      end
+      tags = []
+
+      redis.hgetall(hash_name).each do |hash, tag|
+        x, y = tag.split(",")
+        tags << [x.to_f, y.to_f]
+      end
+
+      render(:"geotags/map", :locals => {:tags => tags})
+    end
+
     get '/github/geotags.csv' do
       # Concoct some neat syntax for referring to a github user, repo, and branch or rev-list
       # Fetch that data from github and do same
