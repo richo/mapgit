@@ -106,8 +106,12 @@ module Mapgit
         tags << [x, y]
       end
 
-      center[0] /= tags.length
-      center[1] /= tags.length
+      if tags.length > 0
+        center[0] /= tags.length
+        center[1] /= tags.length
+      else
+        raise "No tags fetched"
+      end
 
       erb(:"geotags/map", :locals => {:tags => tags, :center => center}, :layout => false)
     end
