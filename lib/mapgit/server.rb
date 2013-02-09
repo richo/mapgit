@@ -11,10 +11,6 @@ module Mapgit
       raise "GMAPS_API_KEY unset"
     end
 
-    use OmniAuth::Builder do
-        provider :github, ENV['GITHUB_KEY'], ENV['GITHUB_SECRET']
-    end
-
     helpers do
       def current_user
         session[:user]
@@ -119,12 +115,6 @@ module Mapgit
     get '/github/geotags.csv' do
       # Concoct some neat syntax for referring to a github user, repo, and branch or rev-list
       # Fetch that data from github and do same
-    end
-
-    get '/auth/github/callback' do
-      session[:user] = request.env['omniauth.auth']
-      session[:token] = params[:code]
-      redirect '/'
     end
 
     post '/logout' do

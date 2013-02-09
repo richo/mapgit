@@ -1,5 +1,3 @@
-require 'omniauth'
-require 'omniauth-github'
 require 'sinatra'
 require 'redis'
 require 'json'
