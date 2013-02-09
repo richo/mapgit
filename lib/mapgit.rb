@@ -1,4 +1,5 @@
 require 'sinatra'
+require 'sinatra_auth_github'
 require 'redis'
 require 'json'
 

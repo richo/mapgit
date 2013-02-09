@@ -11,6 +11,14 @@ module Mapgit
       raise "GMAPS_API_KEY unset"
     end
 
+    set :github_options, {
+      :scope     => 'user',
+      :secret    => ENV['GITHUB_SECRET'],
+      :client_id => ENV['GITHUB_KEY'],
+    }
+
+    register Sinatra::Auth::Github
+
     helpers do
       def current_user
         session[:user]
@@ -45,6 +53,10 @@ module Mapgit
 
     get '/geotags/upload' do
       erb(:"geotags/upload")
+    end
+
+    get '/auth/github' do
+      authenticate!
     end
 
     post '/geotags/upload' do
