@@ -20,14 +20,6 @@ module Mapgit
     register Sinatra::Auth::Github
 
     helpers do
-      def current_user
-        session[:user]
-      end
-
-      def logout!
-        session[:user] = nil
-      end
-
       def redis
         @redis ||= Redis.new
       end
@@ -40,8 +32,8 @@ module Mapgit
     get '/geotags' do
       if params[:user]
         username = params[:user]
-      elsif current_user
-        username = current_user.info[:nickname]
+      elsif github_user
+        username = github_user.login
       else
         halt 403, "Login fool!"
       end
@@ -56,14 +48,17 @@ module Mapgit
     end
 
     get '/auth/github' do
-      authenticate!
+      session[:user] = authenticate!
+      require 'pry'
+      binding.pry
+      redirect '/'
     end
 
     post '/geotags/upload' do
-      halt 403, "Login fool!" unless current_user
+      halt 403, "Login fool!" unless github_user
 
       begin
-        hash_name = "#{current_user.info[:nickname]}:tags"
+        hash_name = "#{github_user.login}:tags"
         params[:tags].lines.each do |line|
           tag = ::Mapgit::Tag.from_line(line)
           redis.hmset hash_name, tag.hash, tag.tag
@@ -93,8 +88,8 @@ module Mapgit
     end
 
     get '/geotags/map' do
-      if current_user
-        username = current_user[:nickname]
+      if github_user
+        username = github_user.login
       elsif params[:user]
         username = params[:user]
       else

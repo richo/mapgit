@@ -33,8 +33,8 @@
     </div>
     <div class="nine columns">
       <ul class="link-list right">
-        <% if current_user %>
-          <li>logged in as <%= current_user.info[:nickname] %></li>
+        <% if github_user %>
+          <li>logged in as <%= github_user.login %></li>
           <li><form method="post" action="/logout"><input type="submit" class="button" value="Logout" /></form></li>
         <% else %>
           <li><a class="button" href="/auth/github">Login</a></li>
